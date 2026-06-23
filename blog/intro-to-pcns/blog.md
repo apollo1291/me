@@ -417,9 +417,10 @@ If you have any questions or comments, please feel free to reach out to me on [L
 Github repo: [Predictive_Coding](https://github.com/apollo1291/Predictive_Coding)
 
 ## References
-Stenlund (2025). Introduction to Predictive Coding Networks for Machine Learning. arXiv:2506.06332
-Rao & Ballard (1999). Predictive coding in the visual cortex. Nature Neuroscience, 2(1):79–87
-Friston & Kiebel (2009). Predictive coding under the free-energy principle. Phil. Trans. R. Soc. B, 364(1521):1211–1221
-Lillicrap et al. (2020). Backpropagation and the brain. Nature Reviews Neuroscience, 21:335–346
-Millidge, Seth & Buckley (2021). Predictive coding: a theoretical and experimental review. arXiv:2107.12979
-Feldman & Friston (2010). Attention, uncertainty, and free-energy. Frontiers in Human Neuroscience, 4:215
+- Stenlund (2025). Introduction to Predictive Coding Networks for Machine Learning. arXiv:2506.06332
+- Rao & Ballard (1999). Predictive coding in the visual cortex. Nature Neuroscience, 2(1):79–87
+- Friston & Kiebel (2009). Predictive coding under the free-energy principle. Phil. Trans. R. Soc. B, 364(1521):1211–1221
+- Lillicrap et al. (2020). Backpropagation and the brain. Nature Reviews Neuroscience, 21:335–346
+- Millidge, Seth & Buckley (2021). Predictive coding: a theoretical and experimental review. arXiv:2107.12979
+- Feldman & Friston (2010). Attention, uncertainty, and free-energy. Frontiers in Human Neuroscience, 4:215
+- Qi, Forasassi, Lukasiewicz, and Salvatori (2025). Towards the Training of Deeper Predictive Coding Neural Networks. arXiv:2506.23800.
