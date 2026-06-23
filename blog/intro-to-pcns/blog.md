@@ -3,6 +3,7 @@ title: "Road to Predictive Coding Language Models"
 description: Pt. 1 Introduction to Predictive Coding Networks. A journey through the theory and practice of Predictive Coding Networks
 date: 2026-06-22
 permalink: /blog/intro-to-pcns/
+image: /blog/intro-to-pcns/pcn_diagram.png
 ---
 # Road to Predictive Coding Language Models: Predictive Coding Networks
 
