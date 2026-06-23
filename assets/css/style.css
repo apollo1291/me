@@ -1,0 +1,174 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  background: #000;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 2.5rem 3rem 0;
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.site-name {
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.site-nav {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.site-nav a {
+  font-size: 0.875rem;
+  text-decoration: none;
+  color: #666;
+}
+
+.site-nav a.active {
+  color: #fff;
+}
+
+.site-nav a:hover {
+  color: #fff;
+}
+
+.site-main {
+  flex: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3rem 3rem 4rem;
+  width: 100%;
+}
+
+.site-footer {
+  display: flex;
+  gap: 1rem;
+  max-width: 720px;
+  margin: 0 auto 3rem;
+  padding: 0 3rem;
+  width: 100%;
+}
+
+.site-footer a {
+  font-size: 0.8rem;
+  color: #666;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: #fff;
+}
+
+.about p {
+  margin-bottom: 1.25rem;
+}
+
+.about p:last-of-type {
+  margin-bottom: 2rem;
+}
+
+.blog-list {
+  list-style: none;
+}
+
+.blog-list li {
+  margin-bottom: 0.75rem;
+}
+
+.blog-list a {
+  text-transform: lowercase;
+}
+
+.blog-list .description {
+  color: #888;
+  font-style: italic;
+}
+
+.post-content h1,
+.post-content h2,
+.post-content h3 {
+  margin: 1.5rem 0 0.75rem;
+  font-weight: 600;
+}
+
+.post-content p {
+  margin-bottom: 1rem;
+}
+
+.post-content ul,
+.post-content ol {
+  margin: 0 0 1rem 1.25rem;
+}
+
+.post-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.post-content p[align="center"] {
+  text-align: center;
+}
+
+.post-content p[align="center"] img {
+  margin: 0 auto;
+}
+
+.post-content code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.9em;
+  background: #1a1a1a;
+  padding: 0.15em 0.35em;
+  border-radius: 3px;
+}
+
+.post-content pre {
+  background: #1a1a1a;
+  padding: 1rem;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+}
+
+.post-content pre code {
+  background: none;
+  padding: 0;
+}
+
+@media (max-width: 600px) {
+  .site-header,
+  .site-main,
+  .site-footer {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}

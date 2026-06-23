@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title %}{{ page.title }} — {% endif %}{{ site.title }}</title>
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+<body>
+  <header class="site-header">
+    <a href="{{ '/' | relative_url }}" class="site-name">{{ site.title }}</a>
+    <nav class="site-nav">
+      <a href="{{ '/' | relative_url }}" class="{% if page.layout != 'post' %}{% if page.url == '/' or page.url == '/index.html' %}active{% endif %}{% endif %}">About</a>
+      <a href="{{ '/blog' | relative_url }}" class="{% if page.layout == 'post' or page.url == '/blog/' or page.url == '/blog.html' %}active{% endif %}">Blog</a>
+    </nav>
+  </header>
+
+  <main class="site-main">
+    {{ content }}
+  </main>
+
+  <footer class="site-footer">
+    <a href="mailto:{{ site.email }}" aria-label="Email">@</a>
+    <a href="https://github.com/ellingtonhemphill" aria-label="GitHub" target="_blank" rel="noopener">gh</a>
+    <a href="https://www.linkedin.com/in/ellingtonhemphill" aria-label="LinkedIn" target="_blank" rel="noopener">in</a>
+  </footer>
+</body>
+</html>

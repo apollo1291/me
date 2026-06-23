@@ -1,0 +1,28 @@
+title: Ellington Hemphill
+email: ehemp@mit.edu
+description: Personal site
+url: https://ellingtonhemphill.github.io
+baseurl: /me
+
+markdown: kramdown
+kramdown:
+  parse_block_html: true
+  parse_span_html: true
+  input: GFM
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - "Ellington Hemphill Resume.pdf"
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+  - scope:
+      path: "blog/*/blog.md"
+    values:
+      layout: post
+      permalink: /blog/:title/
