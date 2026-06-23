@@ -226,7 +226,7 @@ class PCNLayer(nn.Module):
 
 Ok now that we've got the library let's try training a model.
 
-REBOND BOSH back out to ALLEN (the PCN) his 3 pointer (accuracy) BANG! 
+REBOUND BOSH back out to ALLEN (the PCN) his 3 pointer (accuracy) BANG! 
 ```
 (pcn_env) [ehemp@node4102 Predictive_Coding]$ python examples/cifar10_supervised.py --epochs 4 --T-infer 25
 Device: cuda
