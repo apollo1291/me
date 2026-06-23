@@ -1,8 +1,8 @@
 title: Ellington Hemphill
 email: hemphilled@icloud.com
 description: Personal site
-url: https://ellingtonhemphill.com/
-baseurl: /me
+url: https://ellingtonhemphill.com
+baseurl: ""
 
 markdown: kramdown
 kramdown:
