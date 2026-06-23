@@ -34,19 +34,34 @@ Personal site built with Jekyll, hosted on GitHub Pages.
    ![caption](my-chart.png)
    ```
 
-   ```html
-   <p align="center">
-     <img src="my-photo.png" alt="description" width="300">
-   </p>
-   ```
+Or with raw HTML (do not indent the tags — Kramdown treats indented HTML as code):
+
+<p align="center">
+<img src="my-photo.png" alt="description" width="300">
+</p>
 
 4. Push — the post appears on `/blog` automatically.
 
 ## Local preview
 
+`github-pages` does not support Ruby 4 yet. Use **Ruby 3.3**:
+
 ```bash
+brew install ruby@3.3
+export PATH="/opt/homebrew/opt/ruby@3.3/bin:$PATH"
+ruby --version   # should show 3.3.x
+```
+
+Then from the project folder:
+
+```bash
+cd /Users/ellingtonhemphill/personal_site
 bundle install
 bundle exec jekyll serve
 ```
 
 Open [http://localhost:4000/me/](http://localhost:4000/me/).
+
+To make Ruby 3.3 permanent, add the `export PATH=...` line to `~/.zshrc`.
+
+**If you already ran `bundle install` with Ruby 4**, delete `Gemfile.lock` and re-run `bundle install` after switching to 3.3.

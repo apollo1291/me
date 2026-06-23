@@ -88,12 +88,27 @@ a {
   color: #fff;
 }
 
-.about p {
+.about-layout {
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-start;
+}
+
+.about-headshot {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #1a1a1a;
+}
+
+.about-text p {
   margin-bottom: 1.25rem;
 }
 
-.about p:last-of-type {
-  margin-bottom: 2rem;
+.about-text p:last-child {
+  margin-bottom: 0;
 }
 
 .blog-list {
@@ -170,5 +185,16 @@ a {
   .site-footer {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
+  }
+
+  .about-layout {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .about-headshot {
+    width: 140px;
+    height: 140px;
   }
 }
