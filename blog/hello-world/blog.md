@@ -2,6 +2,7 @@
 title: hello-world
 description: a quick note on how this blog works
 date: 2026-06-22
+permalink: /blog/hello-world/
 ---
 
 This is a sample post. To add a new entry, create a folder under `blog/` with a `blog.md` file and any images alongside it.

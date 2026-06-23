@@ -18,7 +18,7 @@
     }
   </style>
 </head>
-<body>
+<body{% if page.layout == 'post' %} class="post-page"{% endif %}>
   <header class="site-header">
     <a href="{{ '/' | relative_url }}" class="site-name">{{ site.title }}</a>
     <nav class="site-nav">
@@ -33,7 +33,7 @@
 
   <footer class="site-footer">
     <a href="mailto:{{ site.email }}" aria-label="Email">@</a>
-    <a href="https://github.com/ellingtonhemphill" aria-label="GitHub" target="_blank" rel="noopener">gh</a>
+    <a href="https://github.com/apollo1291" aria-label="GitHub" target="_blank" rel="noopener">gh</a>
     <a href="https://www.linkedin.com/in/ellingtonhemphill" aria-label="LinkedIn" target="_blank" rel="noopener">in</a>
   </footer>
 </body>

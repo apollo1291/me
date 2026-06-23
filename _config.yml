@@ -1,5 +1,5 @@
 title: Ellington Hemphill
-email: ehemp@mit.edu
+email: hemphilled@icloud.com
 description: Personal site
 url: https://apollo1291.github.io
 baseurl: /me
@@ -9,6 +9,7 @@ kramdown:
   parse_block_html: true
   parse_span_html: true
   input: GFM
+  math_engine: mathjax
 
 exclude:
   - Gemfile
@@ -25,4 +26,3 @@ defaults:
       path: "blog/*/blog.md"
     values:
       layout: post
-      permalink: /blog/:title/

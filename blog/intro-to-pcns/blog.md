@@ -1,12 +1,10 @@
 ---
-
-title: Road to Predictive Coding Language Models: Introduction to Predictive Coding Networks
+title: "Road to Predictive Coding Language Models: Introduction to Predictive Coding Networks"
 description: A journey through the theory and practice of Predictive Coding Networks
 date: 2026-06-22
+permalink: /blog/intro-to-pcns/
 ---
 # Road to Predictive Coding Language Models: Predictive Coding Networks
-
----
 
 ## 1. Backprop = BLEH.
 
@@ -32,7 +30,7 @@ Backprop reuses the forward weights in reverse. Synapses are directional physica
 Every weight waits for the full forward pass to complete before it can change. Imagine if every time your one of your neurons fired, it had to wait for the entire network of neurons to stop firing before it do anything else? You don't have to imagine I drew a picture:
 
 <p align="center">
-  <img src="dead_guy.png" alt="dead guy" width="200">
+<img src="dead_guy.png" alt="dead guy" width="200">
 </p>
 
 - **Non-locality.** 
@@ -53,7 +51,7 @@ As a result of the theory of predictive coding being so pretty. We get extremely
 
 NOTE: I know backprop is king. Don't take offense at me dissing your favorite optimization technique, Nerd. PCNs are more of a curiosity than a competitor, lucky for us I'm a curious guy.
 <p align="center">
-  <img src="curious.png" alt="curious guy" width="300">
+<img src="curious.png" alt="curious guy" width="300">
 </p>
 
 ## 3. What is a PCN, conceptually?

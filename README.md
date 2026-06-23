@@ -17,7 +17,7 @@ Personal site built with Jekyll, hosted on GitHub Pages.
 
 ## Adding a blog post
 
-1. Create a folder: `blog/<slug>/`
+1. Create a folder: `blog/<slug>/` — **the folder name must match the permalink slug** so co-located images resolve correctly (e.g. `blog/intro-to-pcns/` with `permalink: /blog/intro-to-pcns/`).
 2. Add `blog.md` with front matter:
 
    ```yaml
@@ -25,8 +25,11 @@ Personal site built with Jekyll, hosted on GitHub Pages.
    title: my-post
    description: a short one-line summary
    date: 2026-06-22
+   permalink: /blog/my-post/
    ---
    ```
+
+   Use `permalink` matching your folder name (`blog/my-post/` → `/blog/my-post/`). Quote `title` if it contains colons.
 
 3. Add images in the same folder and reference them by filename:
 

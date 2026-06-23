@@ -88,6 +88,12 @@ a {
   color: #fff;
 }
 
+body.post-page .site-header,
+body.post-page .site-main,
+body.post-page .site-footer {
+  max-width: 900px;
+}
+
 .about-layout {
   display: flex;
   gap: 2.5rem;
