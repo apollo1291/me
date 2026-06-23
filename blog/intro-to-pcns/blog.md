@@ -27,7 +27,7 @@ Backprop violates three things we know about real brains:
 - **Weight transport.** 
 Backprop reuses the forward weights in reverse. Synapses are directional physical junctions, there's no known mechanism that keeps a backward copy of every forward weight in sync inside human or any animals brains.
 - **Update locking.** 
-Every weight waits for the full forward pass to complete before it can change. Imagine if every time your one of your neurons fired, it had to wait for the entire network of neurons to stop firing before it do anything else? You don't have to imagine I drew a picture:
+Every weight waits for the full forward pass to complete before it can change. Imagine if every time your one of your neurons fired, it had to wait for the entire network of neurons to stop firing before it could do anything else? You don't have to imagine I drew a picture:
 
 <p align="center">
 <img src="dead_guy.png" alt="dead guy" width="200">

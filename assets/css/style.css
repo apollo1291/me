@@ -180,11 +180,21 @@ body.post-page .site-footer {
 }
 
 .post-content pre {
-  background: #1a1a1a;
+  background: #111;
   padding: 1rem;
   overflow-x: auto;
   margin-bottom: 1rem;
   border-radius: 4px;
+}
+
+.post-content .highlighter-rouge {
+  margin-bottom: 1rem;
+}
+
+.post-content .highlighter-rouge > .highlight {
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
 }
 
 .post-content pre code {
