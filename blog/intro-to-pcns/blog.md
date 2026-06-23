@@ -1,6 +1,6 @@
 ---
-title: "Road to Predictive Coding Language Models: Introduction to Predictive Coding Networks"
-description: A journey through the theory and practice of Predictive Coding Networks
+title: "Road to Predictive Coding Language Models"
+description: Pt. 1 Introduction to Predictive Coding Networks. A journey through the theory and practice of Predictive Coding Networks
 date: 2026-06-22
 permalink: /blog/intro-to-pcns/
 ---
@@ -18,9 +18,9 @@ Backpropagation works extraordinarily well. It is the backbone of every modern M
 
 Predictive Coding Networks address both of these problems by rethinking the credit assignment problem. Rather than ask "how does this weight affect the final output?", PCNs ask "how surprising is this layer's activity to the layers directly above and below it?" so credit assignment becomes a local conversation between neighbors, not a global broadcast from the loss.
 
-## 2. Two motivations — why anyone should care? PLEASE PLEASE CARE.
+## 2. Ellington, Why do I care at all? 
 
-### 2a. The biological one
+### 2a. The Biological Motivation
 
 Backprop violates three things we know about real brains:
 
@@ -29,14 +29,15 @@ Backprop reuses the forward weights in reverse. Synapses are directional physica
 - **Update locking.** 
 Every weight waits for the full forward pass to complete before it can change. Imagine if every time your one of your neurons fired, it had to wait for the entire network of neurons to stop firing before it could do anything else? You don't have to imagine I drew a picture:
 
-<p align="center">
+<figure class="post-figure" markdown="0">
 <img src="dead_guy.png" alt="dead guy" width="200">
-</p>
+<figcaption>dead guy</figcaption>
+</figure>
 
 - **Non-locality.** 
 The gradient for a weight deep in the network depends on error signals from every layer above it.Neurons only have access to what they can physically observe: their own pre- and post-synaptic neurons. Nothing else.
 
-### 2b. The statistical one
+### 2b. The Theoretical Motivation
 
 Backpropagation is optimization machinery. We could chose any number of other optimization methods for neural networks. Backprop does not fall naturally or prettily out of neural nets, it just is an algorithm we attach on top. Backprop is a chud.
 
@@ -50,9 +51,10 @@ As a result of the theory of predictive coding being so pretty. We get extremely
 "surprise" minimization is a principled objective that doesn't require a fixed dataset or batch structure.
 
 NOTE: I know backprop is king. Don't take offense at me dissing your favorite optimization technique, Nerd. PCNs are more of a curiosity than a competitor, lucky for us I'm a curious guy.
-<p align="center">
+<figure class="post-figure" markdown="0">
 <img src="curious.png" alt="curious guy" width="300">
-</p>
+<figcaption>Look it's me, the curious guy</figcaption>
+</figure>
 
 ## 3. What is a PCN, conceptually?
 
@@ -103,6 +105,11 @@ where $h^{(l)} = f^{(l)\prime}(\mathbf{a}^{(l)}) \odot \boldsymbol\varepsilon^{(
 $$\mathbf{W}^{(l)} \leftarrow \mathbf{W}^{(l)} + \eta_{\text{learn}}\, h^{(l)}\, \mathbf{x}^{(l+1)\top}$$
 
 This is an outer product of the local error signal and the local presynaptic activity — a Hebbian rule, derived from first principles rather than assumed. No quantity from any non-adjacent layer appears anywhere in this expression. Each weight update depends only on the two layers it directly connects.
+
+<figure class="post-figure" markdown="0">
+<img src="pcn_diagram.png" alt="PCN diagram">
+<figcaption>PCN diagram, borrowed from <a href="https://arxiv.org/pdf/2506.23800">Towards the Training of Deeper Predictive Coding Neural Networks</a></figcaption>
+</figure>
 
 ## 5. Getting practical (YiPPEEEE) — training on CIFAR-10
 
@@ -251,7 +258,10 @@ My first instinct was to blame the architecture, the learning rate, maybe Mercur
 
 The energy is supposed to decrease during inference — that's the whole settling process from section 3. The latent states iterate toward a stable belief, and *then* the weights update. So I logged the energy at every inference step and plotted it.
 
-![Energy at each inference step](energy_v_inference_steps.png)
+<figure class="post-figure" markdown="0">
+<img src="energy_v_inference_steps.png" alt="Energy at each inference step">
+<figcaption>Energy at each inference step</figcaption>
+</figure>
 
 The curve is still clearly descending at step 50. Inference hasn't finished. The network is updating its weights mid-thought — before the latent states have actually settled — and those updates are computed from errors that don't reflect any stable belief. They're wrong in direction, and they compound across the entire dataset. By epoch 2 the weights have drifted far enough that inference starts from a worse place than before, which generates even noisier updates, and so on.
 
@@ -276,7 +286,10 @@ So now we've got a working PCN, the energy seems to be decreasing. But, the accu
 
 First, note that energy can go down while accuracy goes down; Just because we've minimized the energy doesn't mean we've maximized the accuracy. Now, Let's take a deeper look into the details of the energy. Particularly, let's take a look at the prediction error of each layer, and also the error curve (how much surprise is being generated) of each layer. 
 
-![Prediction error of each layer and Error curve of each layer](prediction_error_v_layer.png)
+<figure class="post-figure" markdown="0">
+<img src="prediction_error_v_layer.png" alt="Prediction error of each layer and Error curve of each layer">
+<figcaption>Prediction error of each layer and Error curve of each layer</figcaption>
+</figure>
 
 The heatmap tells the story immediately: Layer 0 is white-hot while everything above it collapses to near zero. Layers 1 through 5 are fine. Layer 0 is a disaster.
 
@@ -299,7 +312,10 @@ model.readout.weight.data = model.readout.weight.data - etas[-1] * grad_wout
 ```
 
 Let's try it.
-![Per-layer learning rates](prediction_error_v_per_layer_learning_rates.png)
+<figure class="post-figure" markdown="0">
+<img src="prediction_error_v_per_layer_learning_rates.png" alt="Per-layer learning rates">
+<figcaption>Per-layer learning rates</figcaption>
+</figure>
 
 BOOM! AGI RESTORED! Except it still kinda sucks. The error at layer 0 is no longer white-hot, but it's still not good. And, more then that it seems to have hit a ceiling. It's not getting any better.
 
@@ -317,7 +333,10 @@ transform = T.Compose(
     )
 ```
 
-![Without normalization](no_normalization.png)
+<figure class="post-figure" markdown="0">
+<img src="no_normalization.png" alt="Without normalization">
+<figcaption>Without normalization</figcaption>
+</figure>
 
 L0 error drops dramatically. Which is bizarre, normalization is supposed to *help*. 
 It's one of the most universally beneficial tricks in deep learning. Why is removing 
@@ -347,7 +366,10 @@ was a geometric constraint, not a hyperparameter problem.
 To confirm it was ReLU and not normalization itself, I added normalization back and 
 made L0 linear instead:
 
-![with normalization, and no ReLU](no_ReLU.png)
+<figure class="post-figure" markdown="0">
+<img src="no_ReLU.png" alt="with normalization, and no ReLU">
+<figcaption>with normalization, and no ReLU</figcaption>
+</figure>
 
 Ok, that error looks great! Let's try it.
 
@@ -364,7 +386,7 @@ BANG! BANG! PCNs are da goat.
 
 In a backprop network, the activation function at a given layer shapes the hidden representation but doesn't need to reconstruct the input. In a PCN, the prediction functions *are* a generative model: their output range must cover the range of what they're being asked to predict. This constraint doesn't exist in backprop and it requires thinking about the network differently.
 
-## 7. The future of PCNs
+## 7. The future of PCNs (If I'm not lazy)
 
 Every failure in this post had the same diagnosis: I was thinking about PCNs like a neural net.
 

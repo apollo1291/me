@@ -132,10 +132,6 @@ body.post-page .site-footer {
   margin-bottom: 0.75rem;
 }
 
-.blog-list a {
-  text-transform: lowercase;
-}
-
 .blog-list .description {
   color: #888;
   font-style: italic;
@@ -169,6 +165,22 @@ body.post-page .site-footer {
 
 .post-content p[align="center"] img {
   margin: 0 auto;
+}
+
+.post-figure {
+  margin: 1.5rem 0 2rem;
+  text-align: center;
+}
+
+.post-figure img {
+  margin: 0 auto;
+}
+
+.post-figure figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  color: #888;
+  line-height: 1.5;
 }
 
 .post-content code {
