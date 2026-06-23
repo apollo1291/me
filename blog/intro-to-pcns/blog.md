@@ -75,6 +75,8 @@ Importantly, every guesser only ever talks to their immediate neighbors. The det
 
 ## 4. Ugh! Math.
 
+Now let's replace our chain-of-people analogy with the actual objects stored in a computer.
+
 **Model.** A PCN consists of $L \geq 1$ layers of latent variables $\mathbf{x}^{(l)} \in \mathbb{R}^{d_l}$, $1 \leq l \leq L$, and an input layer $\mathbf{x}^{(0)} \in \mathbb{R}^{d_0}$ clamped to the data. Each layer generates a top-down prediction of the layer below it, so for $0 \leq l \leq L-1$ the architecture maintains:
 
 - Weights $\mathbf{W}^{(l)} \in \mathbb{R}^{d_l \times d_{l+1}}$ — the guessing rule connecting layer $l+1$ down to layer $l$
@@ -408,13 +410,11 @@ and forgets everything. Giving it a sense of time is the bridge to the thing I
 actually want to build at the end of all this: **a PCN language model**. No backprop. 
 Local learning rules all the way down.
 
-We'll get there. For now, AGI is on hold.
+Ight, I'm done yapping. If you want to see the code, check out the [Github repo](https://github.com/apollo1291/Predictive_Coding).
 
 ---
 
 If you have any questions or comments, please feel free to reach out to me on [LinkedIn](https://www.linkedin.com/in/ellingtonhemphill/) or email me at [ehemp@mit.edu or hemphilled@icloud.com](mailto:hemphilled@icloud.com;ehemp@mit.edu;).
-
-Github repo: [Predictive_Coding](https://github.com/apollo1291/Predictive_Coding)
 
 ## References
 - Stenlund (2025). Introduction to Predictive Coding Networks for Machine Learning. arXiv:2506.06332
