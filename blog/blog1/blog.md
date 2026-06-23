@@ -1,3 +1,9 @@
+---
+
+title: Road to Predictive Coding Language Models: Introduction to Predictive Coding Networks
+description: A journey through the theory and practice of Predictive Coding Networks
+date: 2026-06-22
+---
 # Road to Predictive Coding Language Models: Predictive Coding Networks
 
 ---
