@@ -49,7 +49,7 @@ body {
 /* Per-page measures */
 body.page-home { --measure: 880px; }
 body.page-blog { --measure: 1040px; }
-body.page-post { --measure: 760px; }
+body.page-post { --measure: 900px; }
 
 a {
   color: inherit;

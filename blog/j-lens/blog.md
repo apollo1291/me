@@ -10,7 +10,7 @@ image: /blog/j-lens/computing_J-lens.png
 
 ## 1. Introduction
 
-In July, Anthropic provided evidence that Claude has "access consciousness". WE are doomed. 
+In July, Anthropic provided evidence that Claude has "access consciousness" (in a functional way). WE are doomed. 
 
 Anyway, in this work they use a new mechanistic interpretability technique called the Jacobian lens to identify a "global workspace", a space where the model "maintains a privileged set of internal representations, available for report, modulation, and flexible internal reasoning, atop a much larger volume of automatic processing". The full paper is here: [Verbalizable Representations Form a Global Workspace in Language Models](https://transformer-circuits.pub/2026/workspace/index.html) 
 
@@ -183,7 +183,7 @@ OK, so the population is diverse. But diverse populations can still have useful 
 
 The median token's Jacobian sits at relative distance ~1.7 from the naive global at layer 1, ~1.6 at layer 13, and ~0.9 at layer 26. Let me spell out how brutal that is: a relative distance of 1.7 means the gap between a typical token's map and the "average" map is bigger than the map itself. ***FAHHHHHHHH***. The naive lens is a different object that no token experiences. Even at layer 26, the friendliest layer for the naive average, the typical token still disagrees with it by ~90% of its own norm. The centroid really does live in no man's land.
 
-**Is the naive Jacobian valid?** As a population-level summary, "what does this layer do to the residual stream, on average, over this corpus", yes, it's a well-defined, reproducible object, and nothing here says you can't compute it. As a *per-token* object, "what is this token's mind doing right now", which is the mind-reading register the J-lens invites, no. Not close. It's like Tony Snell vs the Jazz on 2/24/17. **How much does it deviate from an MoE-aware one?** By more than its own size at early and mid layers, shrinking to roughly its own size by the end. If you want the lens the token actually looked through, you need the MoE-aware machinery: the per-token $J_{\ell,t} = D_t M_{\ell,t}$. The naive average is a photograph of the whole crowd; nobody in the crowd looks like the photograph.
+**Is the naive Jacobian valid?** As a population-level summary, "what does this layer do to the residual stream, on average, over this corpus", yes, it's a well-defined, reproducible object, and nothing here says you can't compute it. As a *per-token* object, "what is this token's mind doing right now", which is the mind-reading register the J-lens invites, no. Not close. It's like Tony Snell vs the Jazz on 2/24/17. Straight Buns. Not valid. **How much does it deviate from an MoE-aware one?** By more than its own size at early and mid layers, shrinking to roughly its own size by the end. If you want the lens the token actually looked through, you need the MoE-aware machinery: the per-token $J_{\ell,t} = D_t M_{\ell,t}$. The naive average is a photograph of the whole crowd; nobody in the crowd looks like the photograph.
 
 ## 5. Conclusion and Future work that I'll probably forget to do.
 
