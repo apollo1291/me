@@ -4,23 +4,50 @@ title: About
 permalink: /
 ---
 
-<div class="about">
-<div class="about-layout">
-<div class="about-headshot-wrap">
-<img src="{{ '/headshot.png' | relative_url }}" alt="Ellington Hemphill" class="about-headshot" width="180" height="180">
-</div>
-<div class="about-text">
-<p>
-I'm an engineer at Figma working on infrastructure in New York City. 
+<section class="hero">
+  <div class="hero-intro">
+    <h1 class="hero-name">Ellington<br>Hemphill</h1>
+    <p class="hero-role">Engineer · Figma · New York City</p>
+  </div>
+  <div class="hero-photo">
+    <img src="{{ '/headshot.png' | relative_url }}" alt="Ellington Hemphill" width="190" height="190">
+  </div>
+</section>
 
-I graduated with a B.S. in Artificial Intelligence and Decision Making and a Master of Engineering in Electrical Engineering and Computer Science at <a href="https://www.mit.edu/">MIT</a>. 
-I previously worked as a lead graduate researcher under Amar Gupta at <a href="https://mit-medg.github.io/"> MIT CSAIL's Decision-making Group</a>, 
-leading 4 research teams on ML for Financial Systems. Before that I was an engineer at Intuit Credit Karma on the Facts Platform team, 
-working on data pipelines .
-</p>
-<p>
-Right now, I'm focused on figuring out how to do a handstand push-up, random interesting ML projects, and becoming GM in TFT. Check out my blog!
-</p>
+<div class="bio">
+  <p>
+    I'm an engineer at Figma working on infrastructure in New York City.
+  </p>
+  <p>
+    I graduated with a B.S. in Artificial Intelligence and Decision Making and a Master of Engineering in Electrical
+    Engineering and Computer Science at <a href="https://www.mit.edu/">MIT</a>. I previously worked as a lead graduate
+    researcher under Amar Gupta at <a href="https://mit-medg.github.io/">MIT CSAIL's Decision-making Group</a>, leading
+    4 research teams on ML for Financial Systems. Before that I was an engineer at Intuit Credit Karma on the Facts
+    Platform team, working on data pipelines.
+  </p>
+  <p>
+    Right now, I'm focused on figuring out how to do a handstand push-up, random interesting ML projects, and becoming
+    GM in TFT. Check out my blog!
+  </p>
 </div>
-</div>
-</div>
+
+{% assign posts = site.pages | where: "layout", "post" | sort: "date" | reverse %}
+{% if posts.size > 0 %}
+<section class="home-recent">
+  <h2 class="section-label">Recent writing</h2>
+  <ul class="recent-list">
+    {% for post in posts limit: 2 %}
+    <li>
+      <a href="{{ post.url | relative_url }}">
+        <span class="recent-title">{{ post.title }}</span>
+        <span class="recent-date">{{ post.date | date: "%b %Y" }}</span>
+        <span class="recent-arrow" aria-hidden="true">→</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% if posts.size > 2 %}
+  <a href="{{ '/blog' | relative_url }}" class="more">All posts →</a>
+  {% endif %}
+</section>
+{% endif %}

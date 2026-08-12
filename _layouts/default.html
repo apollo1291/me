@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% if page.title %}{{ page.title }} — {% endif %}{{ site.title }}</title>
   <meta name="description" content="{{ page.description | default: site.description | xml_escape }}">
+  <meta name="theme-color" content="#0a0a0b">
   <meta property="og:title" content="{{ page.title | default: site.title | xml_escape }}">
   <meta property="og:description" content="{{ page.description | default: site.description | xml_escape }}">
   <meta property="og:url" content="{{ page.url | absolute_url }}">
@@ -17,28 +18,24 @@
   <link rel="icon" href="{{ '/favicon.png' | relative_url }}?v=1" type="image/png" sizes="32x32">
   <link rel="shortcut icon" href="{{ '/favicon.png' | relative_url }}?v=1" type="image/png">
   <link rel="apple-touch-icon" href="{{ '/favicon.png' | relative_url }}?v=1">
-  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}?v=3">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}?v=4">
   <link rel="stylesheet" href="{{ '/assets/css/syntax.css' | relative_url }}">
-  <style>
-    .about-layout { display: flex; gap: 2.5rem; align-items: flex-start; }
-    .about-headshot-wrap {
-      width: 180px; height: 180px; border-radius: 50%;
-      overflow: hidden; flex-shrink: 0; background: #1a1a1a;
-    }
-    .about-headshot { width: 100%; height: 100%; object-fit: cover; display: block; }
-    @media (max-width: 600px) {
-      .about-layout { flex-direction: column; align-items: center; gap: 1.5rem; }
-      .about-headshot-wrap { width: 140px; height: 140px; }
-    }
-  </style>
 </head>
-<body{% if page.layout == 'post' %} class="post-page"{% endif %}>
+{% assign is_home = false %}
+{% if page.url == '/' or page.url == '/index.html' %}{% assign is_home = true %}{% endif %}
+{% assign is_blog = false %}
+{% if page.url == '/blog/' or page.url == '/blog.html' %}{% assign is_blog = true %}{% endif %}
+<body class="{% if page.layout == 'post' %}page-post{% elsif is_home %}page-home{% elsif is_blog %}page-blog{% endif %}">
   <header class="site-header">
-    <a href="{{ '/' | relative_url }}" class="site-name">{{ site.title }}</a>
-    <nav class="site-nav">
-      <a href="{{ '/' | relative_url }}" class="{% if page.layout != 'post' %}{% if page.url == '/' or page.url == '/index.html' %}active{% endif %}{% endif %}">About</a>
-      <a href="{{ '/blog' | relative_url }}" class="{% if page.layout == 'post' or page.url == '/blog/' or page.url == '/blog.html' %}active{% endif %}">Blog</a>
-    </nav>
+    <div class="wrap">
+      {% unless is_home %}
+      <a href="{{ '/' | relative_url }}" class="site-name">{{ site.title }}</a>
+      {% endunless %}
+      <nav class="site-nav">
+        <a href="{{ '/' | relative_url }}" class="{% if is_home %}active{% endif %}">About</a>
+        <a href="{{ '/blog' | relative_url }}" class="{% if is_blog or page.layout == 'post' %}active{% endif %}">Blog</a>
+      </nav>
+    </div>
   </header>
 
   <main class="site-main">
@@ -46,9 +43,12 @@
   </main>
 
   <footer class="site-footer">
-    <a href="mailto:{{ site.email }}" aria-label="Email">@</a>
-    <a href="https://github.com/apollo1291" aria-label="GitHub" target="_blank" rel="noopener">gh</a>
-    <a href="https://www.linkedin.com/in/ellingtonhemphill" aria-label="LinkedIn" target="_blank" rel="noopener">in</a>
+    <div class="wrap">
+      <a href="mailto:{{ site.email }}" aria-label="Email">Email</a>
+      <a href="https://github.com/apollo1291" aria-label="GitHub" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/ellingtonhemphill" aria-label="LinkedIn" target="_blank" rel="noopener">LinkedIn</a>
+      <span class="colophon">{{ site.title }}</span>
+    </div>
   </footer>
 </body>
 </html>

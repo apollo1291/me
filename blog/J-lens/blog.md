@@ -3,7 +3,7 @@ title: "Investigating the J-Lens in Mixture-of-Experts Models"
 description: A journey through the theory and practice of the J-Lens in Mixture-of-Experts Models
 date: 2026-08-10
 permalink: /blog/j-lens/
-image: /blog/j-lens/j-lens.png
+image: /blog/j-lens/computing_J-lens.png
 ---
 
 # Investigating the J-Lens in Mixture-of-Experts Models

@@ -1,0 +1,32 @@
+---
+layout: default
+title: Blog
+permalink: /blog/
+---
+
+{% assign posts = site.pages | where: "layout", "post" | sort: "date" | reverse %}
+
+<header class="blog-head">
+  <h1>Writing</h1>
+  <span class="blog-count">{{ posts.size }} post{% if posts.size != 1 %}s{% endif %}</span>
+</header>
+
+<div class="post-grid">
+  {% for post in posts %}
+  <a class="post-card" href="{{ post.url | relative_url }}">
+    <div class="post-card-media{% unless post.image %} is-empty{% endunless %}">
+      {% if post.image %}
+      <img src="{{ post.image | relative_url }}" alt="" loading="lazy">
+      {% endif %}
+    </div>
+    <div class="post-card-body">
+      <span class="post-card-date">{{ post.date | date: "%b %-d, %Y" }}</span>
+      <h2 class="post-card-title">{{ post.title }}</h2>
+      {% if post.description %}
+      <p class="post-card-desc">{{ post.description }}</p>
+      {% endif %}
+      <span class="post-card-more">Read →</span>
+    </div>
+  </a>
+  {% endfor %}
+</div>
