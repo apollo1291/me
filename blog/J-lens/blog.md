@@ -136,7 +136,7 @@ The important take away from this graph is that the gap is nontrivially large at
 
 ### The ≈ I've been hiding from you (Confound 3) FAH
 
-You caught me. When I wrote $M_{\ell,t} = I + \sum_{e \in S_t} g_{t,e} J_{f_e}(h_{\ell,t})$ back in section 2, I treated the routing as frozen. But the gate weights $g_{t,e}$ are not constants, they're functions of the same hidden state I'm differentiating with respect to. A proper application of the product rule gives a second term, $\sum_e f_e(h)\, \frac{\partial g_e}{\partial h}$: nudging $h_{\ell,t}$ doesn't just change what each expert computes, it changes *how much the router listens to each expert*. My decomposition drops that term entirely. So the honest equation has an $\approx$ in it, and every result in this post is standing on that $\approx$. 
+You caught me. When I wrote $M_{\ell,t} = I + \sum_{e \in S_t} g_{t,e} J_{f_e}(h_{\ell,t})$ back in section 2, I treated the routing as frozen. But the gate weights $g_{t,e}$ are not constants, they're functions of the same hidden state I'm differentiating with respect to. A proper application of the product rule gives a second term, $\sum_e f_e(h)\, \nabla g_e$: nudging $h_{\ell,t}$ doesn't just change what each expert computes, it also changes how much the router listens to each expert. My decomposition drops that term. oopsie. So the honest equation has an $\approx$ in it. 
 
 "Why did you do this?": Notice that if we differentiate the sublayer honestly we have a term $f_e(h)\nabla g_e$. This is a very problematic term $\nabla g_e$ envolves every expert implicitly because the router scores experts competitively, so we run into the combinatorial sampling problem we ran into with out top-k routing pattern. AAARGHGHGH!
 
@@ -155,7 +155,111 @@ The top curve is a little scary. Reconstruct the same tokens using the averaged 
 
 If anything, the top curve is evidence *for* the thesis. My worry was that a mean over a population can be a centroid where no member lives. The $\bar J^{\text{on}}_e$ curve is that same phenomenon one level down: even within a single expert, the average Jacobian is a poor stand-in for any particular token's copy. The bimodal-distribution picture from earlier applies here. Averages are population summaries all the way down, and "fine as a summary, shaky as a per-token object" turns out to be true of experts for exactly the reason it's true of the layer.
 
-### 
+THat was a lot of text so here's a picture of my cat 
+<figure class="post-figure" markdown="0">
+<img src="cat.png" alt="gate-derivative residual" width="200">
+<figcaption>My cat, Quinn</figcaption>
+</figure>
+
+## 4. Is the averaged naive Jacobian valid and how much does it deviate from a MoE aware one?
+
+Ight, is the naive averaged J-lens actually summarizing anything, or is it the centroid-in-no-man's-land?
+
+First things first: are the experts even different functions? yes, I know this has an obvious answer but its good to cover all your bases. Here is the between-expert dispersion, measured as pairwise 1 − CKA on the *common* probe set (remember, common set, so the input-niche confound from earlier is already controlled out of this figure. Two experts differ here only if they compute different maps.)
+
+<figure class="post-figure" markdown="0">
+<img src="expert_dispersion.png" alt="between-expert dispersion" width="600">
+<figcaption>Between-expert dispersion vs the split-half noise floor</figcaption>
+</figure>
+
+The dispersion sits at ~0.83 at layer 1 and *climbs* to ~0.93 by layer 26, against a split-half noise floor of ~0.03–0.06. it is an order of magnitude above the floor, on inputs every expert shared, after controlling for the niche confound. Captain obvious has spoken: a DeepSeek MoE layer is not one function with 64 flavors, it is 64 different linear-response behaviors that the router blends per token. 
+
+OK, so the population is diverse. But diverse populations can still have useful means. How far does the naive global $J_\ell$ actually sit from the map any individual token experiences? This is the deviation question,
+
+<figure class="post-figure" markdown="0">
+<img src="token_deviation.png" alt="token deviation from naive global" width="600">
+<figcaption>Median relative distance from each token's Jacobian to the naive global</figcaption>
+</figure>
+
+The median token's Jacobian sits at relative distance ~1.7 from the naive global at layer 1, ~1.6 at layer 13, and ~0.9 at layer 26. Let me spell out how brutal that is: a relative distance of 1.7 means the gap between a typical token's map and the "average" map is bigger than the map itself. ***FAHHHHHHHH***. The naive lens is a different object that no token experiences. Even at layer 26, the friendliest layer for the naive average, the typical token still disagrees with it by ~90% of its own norm. the centroid really does live in no man's land.
+
+**Is the naive Jacobian valid?** As a population-level summary, "what does this layer do to the residual stream, on average, over this corpus", yes, it's a well-defined, reproducible object, and nothing here says you can't compute it. As a *per-token* object, "what is this token's mind doing right now", which is the mind-reading register the J-lens invites, no. Not close. Its like tony snell vs the jazz on 2/24/17. **How much does it deviate from an MoE-aware one?** By more than its own size at early and mid layers, shrinking to roughly its own size by the end. If you want the lens the token actually looked through, you need the MoE-aware machinery: the per-token $J_{\ell,t} = D_t M_{\ell,t}$. The naive average is a photograph of the whole crowd; nobody in the crowd looks like the photograph.
+
+## 5. Conclusion and Future work that I'll probably forget to do.
+
+The decomposition $J_{\ell,t} = D_t M_{\ell,t}$ holds up: $D_t$ carries expert differences to the output without editing them, the input-niche and gate-derivative confounds are measured rather than assumed away, and the one shortcut that fails (rebuilding per-token maps from averaged experts) is a shortcut nothing here relied on. And the verdict on the naive J-lens: fine as a corpus-level summary, invalid as a per-token object, the typical token's map sits further from the "average" than the average is big. If you point a naive J-lens at an MoE model and call it mind reading, you're reading a mind nobody has.
+
+What's next, allegedly. The two questions I punted on: is the workspace *regime-local* — do routing clusters carry their own dictionaries, with $D_t$'s routing-dependence doing real work (the per-token routing-vs-null gap opening at layer 26 is the breadcrumb here) — and is the *router itself* workspace-sensitive, i.e. do J-space-aligned tokens get preferentially routed to high-gain experts? Nearer term: the shared-vs-routed additive split to localize where the broadcast lives, more than three probed layers, and actually differentiating through the gate weights instead of invoicing them as a residual. Also, Qualitative inspection of the MoE aware J-lens. If you don't hear from me, assume the H100 queue won.
+
+---
+
+If you have any questions or comments, please feel free to reach out to me on [LinkedIn](https://www.linkedin.com/in/ellingtonhemphill/) or email me at [ehemp@mit.edu or hemphilled@icloud.com](mailto:hemphilled@icloud.com;ehemp@mit.edu;).
+
+---
+
+## 6. Disclaimer 
+
+This is not full fledged research. The takeaways in this blog should be read as weak to modederate evidence of the claims made. Not certainty 
+
+## 7. Appendix
+
+I had claude write this entirely. 
+
+A. Making the MoE path differentiable
+
+The stock DeepSeek-V2 modeling code routes tokens through moe_infer during evaluation. That function is decorated with @torch.no_grad and uses numpy-based scatter operations, so no gradient flows through the expert computation at all: calling backward() on the unmodified model silently differentiates a graph that does not contain the experts. All Jacobians in this post are computed against a patched forward that (1) runs the router gate as normal, obtaining top-6 indices and gate weights per token; (2) loops over the experts explicitly, computing each active expert's unweighted output f_e(h) inside the autograd graph; and (3) recombines exactly as the stock path does: y = \sum_e g_e f_e(h) + \text{shared}(h). The patched forward is numerically identical to the stock forward (verified in fp32).
+
+The patch exposes three modes. differentiable enables the gradient path with no recording and is used for all Jacobian passes. capture additionally records per-expert outputs, gate weights, and the full 64-way router logits per token, and is used for reconstruction checks and routing tables. record_routing hooks only the gate on the fast path and is used for corpus-scale occupancy statistics.
+
+B. Random-probe sketching
+
+A dense d \times d Jacobian at d = 2048 requires 2048 backward passes (VJPs) through the full model per token, which is infeasible at corpus scale on the available hardware, and torch.func.jacrev applied to the full model exceeds memory (~79 GB peak regardless of chunking). Instead, all full-path objects are estimated as sketches. A single Gaussian probe matrix P \in \mathbb{R}^{128 \times 2048} is generated once (seed 0, CPU) and reused for every token, layer, and run. The sketch S = PJ is computed as 128 VJPs: row j is the gradient of \langle P_j, F \rangle with respect to the leaf. One forward graph is built and reused via retain_graph across all 128 rows, keeping peak memory at the single-VJP floor (~33 GB, of which ~31 GB is bf16 weights).
+
+Two properties make sketches sufficient for every analysis in the post. First, because P is shared, all sketches live in the same coordinates, so they can be averaged and compared directly: \text{mean}_t(P J_t) = P\, \text{mean}_t(J_t). Second, the chain identity survives projection: PJ = (PD)\,M. Every validity check therefore holds on sketches unchanged in form.
+
+C. Choice of target functional
+
+The target functional is F = \text{mean}_{t' \geq t}\, h_{\text{final}, t'}, the final hidden state averaged over all positions from t to the end of the 256-token sequence. Because VJPs are linear, seeding a single cotangent with this average returns the position-averaged Jacobian in one backward pass; the averaging is free.
+
+An earlier version pinned a single target position t' = 255. This produced per-token Jacobians that were mutually orthogonal (median pairwise cosine similarity 0.001), because a fixed distant target drops the vertical residual-stream path at t' = t and retains only the attention-mediated component, which varies essentially independently across tokens. The averaged target is what all reported results use.
+
+D. Per-token pipeline
+
+For each sketch token at a probed layer, the pipeline runs five steps: (1) a plain pass (no grad, differentiable path enabled) recording the true sublayer input s_0 and output o_0 at (\ell, t), plus the top-6 expert indices and gate weights; (2) the exact local map M_{\ell,t} via jacrev of the MoE sublayer alone at s_0 (cheap, one sublayer); (3) the reconstruction M^{\text{recon}}_{\ell,t} = \sum_e g_e\, J_{f_e}(s_0) + J_{\text{shared}}(s_0), with each expert cast to fp32; (4) J_s = PJ, computed by injecting a grad-requiring leaf at the sublayer input via a forward-pre-hook and running 128 retained-graph VJPs from the averaged target; (5) D_s = PD, identical but with the leaf injected at the sublayer output via a forward hook.
+
+Each token is stored with two residuals. The chain residual \lVert J_s - D_s M_{\ell,t} \rVert / \lVert J_s \rVert is a plumbing check on the exact identity J = DM; its median must be below 5 \times 10^{-2} for the layer to pass. The reconstruction residual \lVert J_s - D_s M^{\text{recon}}_{\ell,t} \rVert / \lVert J_s \rVert is the gate-derivative term discussed in the main text, logged as a measurement rather than gated.
+
+E. Sampling and per-expert estimation
+
+Per-token sketches use 128 tokens per layer, drawn one per sequence at mid-sequence positions 64–191 of 256-token sequences, spread over the corpus. Probed layers are 1, 13, and 26 (early / mid / last); layer 0 of DeepSeek-V2-Lite is a dense MLP and is excluded. Gate weights are used as the model produces them (DeepSeek-V2-Lite does not renormalize the top-6 weights).
+
+Per-expert averaged Jacobians \bar J_e are computed for all 64 routed experts at each probed layer by jacrev on the expert FFN alone in fp32 — no full-model backward is involved. Each expert is averaged two ways: over up to 500 tokens the router actually sent to it (\bar J^{\text{on}}_e) and over a common probe set of 500 tokens identical for every expert (\bar J^{\text{common}}_e). Every average carries interleaved even/odd split-halves, whose disagreement serves as the calibrated noise floor. The shared-expert module receives the same treatment.
+
+F. Metric definitions
+
+Similarity between Jacobians is measured with linear CKA computed on Gram matrices J^\top J. This choice is deliberate: CKA on J^\top J is invariant to left-orthogonal transformations, which is exactly the slot occupied by the shared probe P, so sketched and dense objects are comparable on the same footing. Dispersion of a set of Jacobians is the mean pairwise 1 - \text{CKA} across the set. The routing-grouped null is constructed by repeatedly partitioning the same tokens into random groups with sizes matched to the routing-defined groups and computing the identical statistic; the reported null is the mean over repetitions.
+
+G. Cost
+
+Each token costs roughly 50–60 seconds, dominated by the two 128-VJP sketches. One layer runs per SLURM job on a single H100; results are written token-by-token as atomically renamed tok*.pt files, so jobs are resumable after preemption. Peak memory is ~33 GB.
+
+H. Limitations
+
+Three probed layers out of 26; 128 sketch tokens per layer; sketch width K = 128 out of d = 2048. The gate-derivative term is measured as a residual, not modeled. All corpus-level quantities are defined relative to the specific pretraining-style mixture used here; per-expert averages inherit the routing distribution of that corpus. Conclusions are for DeepSeek-V2-Lite-Chat and may not transfer to other MoE architectures, in particular those with different top-k, gate normalization, or shared-expert configurations.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
